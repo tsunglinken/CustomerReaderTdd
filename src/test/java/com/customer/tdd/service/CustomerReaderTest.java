@@ -10,7 +10,6 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.List;
@@ -21,7 +20,7 @@ import static org.mockito.Mockito.*;
 
 public class CustomerReaderTest {
     @Mock
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
+    private Logger logger;
     @Mock
     private StubCustomerRepository stubCustomerRepository;
     @Mock
@@ -94,9 +93,8 @@ public class CustomerReaderTest {
             return null;
         }).when(stubCustomerRepository).save(any(Customer.class));
         customerReader.saveCustomer("Ken", "Chuang", "magic3657@gmail.com");
-//        verify(logger).info("Saved customer with id {}", 2);
+        verify(logger).info("Saved customer with id {}", 2);
     }
-
 
     private void eventShouldBe(Type expectedType, String expectedCustomerName) {
         Event event = eventArgumentCaptor.getValue();

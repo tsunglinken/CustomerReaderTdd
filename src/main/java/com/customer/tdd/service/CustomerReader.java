@@ -27,8 +27,8 @@ public class CustomerReader {
         return customer.getFullName();
     }
 
-    public void saveCustomer(String fisrtName, String lastName, String email) {
-        Customer customer = new Customer(fisrtName, lastName, email);
+    public void saveCustomer(String firstName, String lastName, String email) {
+        Customer customer = new Customer(firstName, lastName, email);
         stubCustomerRepository.save(customer);
         logger.info("Saved customer with id {}", customer.getId());
     }
