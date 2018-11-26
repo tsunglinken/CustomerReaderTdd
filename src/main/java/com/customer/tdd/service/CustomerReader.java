@@ -2,19 +2,19 @@ package com.customer.tdd.service;
 
 import com.customer.tdd.model.Customer;
 import com.customer.tdd.repository.impl.StubCustomerRepository;
-
-import java.util.List;
+import org.slf4j.Logger;
 
 public class CustomerReader {
+    private Logger logger;
     private StubCustomerRepository stubCustomerRepository;
     private EmailSender emailSender;
     private EventRecord eventRecord;
-    private List<Customer> customers;
 
-    public CustomerReader(StubCustomerRepository stubCustomerRepository, EmailSender emailSender, EventRecord eventRecord) {
+    public CustomerReader(StubCustomerRepository stubCustomerRepository, EmailSender emailSender, EventRecord eventRecord, Logger logger) {
         this.stubCustomerRepository = stubCustomerRepository;
         this.emailSender = emailSender;
         this.eventRecord = eventRecord;
+        this.logger = logger;
     }
 
     public String findFullName(int id) {
@@ -27,7 +27,9 @@ public class CustomerReader {
         return customer.getFullName();
     }
 
-    private boolean isNotFound(List<Customer> customers) {
-        return customers.isEmpty();
+    public void saveCustomer(String fisrtName, String lastName, String email) {
+        Customer customer = new Customer(fisrtName, lastName, email);
+        stubCustomerRepository.save(customer);
+        logger.info("Saved customer with id {}", customer.getId());
     }
 }

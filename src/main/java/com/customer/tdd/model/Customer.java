@@ -1,5 +1,7 @@
 package com.customer.tdd.model;
 
+import com.customer.tdd.enums.Type;
+
 import java.time.LocalDate;
 
 public class Customer {
@@ -13,6 +15,16 @@ public class Customer {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+    }
+
+    public Customer(String firstName, String lastName, String email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Integer getId() {
@@ -37,7 +49,7 @@ public class Customer {
 
     public Event createEvent() {
         Event event = new Event();
-        event.setType(Event.Type.REMINDER_SENT);
+        event.setType(Type.REMINDER_SENT);
         event.setCustomerName(getFullName());
         event.setTimestamp(LocalDate.now());
         return event;

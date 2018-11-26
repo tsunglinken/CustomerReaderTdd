@@ -1,10 +1,10 @@
 package com.customer.tdd.model;
 
+import com.customer.tdd.enums.Type;
+
 import java.time.LocalDate;
 
 public class Event {
-    public enum Type {REMINDER_SENT, REGISTRATION, INVOICE_ISSUED,PAYMENT, SETTLEMENT};
-
     private Type type;
     private String customerName;
     private LocalDate timestamp;

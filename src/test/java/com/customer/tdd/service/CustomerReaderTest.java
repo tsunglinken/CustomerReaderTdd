@@ -1,5 +1,6 @@
 package com.customer.tdd.service;
 
+import com.customer.tdd.enums.Type;
 import com.customer.tdd.model.Customer;
 import com.customer.tdd.model.Event;
 import com.customer.tdd.repository.impl.StubCustomerRepository;
@@ -8,6 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.List;
@@ -17,6 +20,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
 public class CustomerReaderTest {
+    @Mock
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
     @Mock
     private StubCustomerRepository stubCustomerRepository;
     @Mock
@@ -30,7 +35,7 @@ public class CustomerReaderTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
-        customerReader = new CustomerReader(stubCustomerRepository, emailSender, eventRecord);
+        customerReader = new CustomerReader(stubCustomerRepository, emailSender, eventRecord, logger);
     }
 
     @Test
@@ -78,10 +83,22 @@ public class CustomerReaderTest {
         givenCustomerById(1, new Customer(1, "Ken", "Chuang", "ken.chuang@gmail.com"));
         fullNameShouldBe("Ken Chuang");
         eventRecordCalledTimesShouldBe(1);
-        eventShouldBe(Event.Type.REMINDER_SENT, "Ken Chuang");
+        eventShouldBe(Type.REMINDER_SENT, "Ken Chuang");
     }
 
-    private void eventShouldBe(Event.Type expectedType, String expectedCustomerName) {
+    @Test
+    public void save_customer_success(){
+        doAnswer(invocation -> {
+            Customer customer = (Customer) invocation.getArgument(0);
+            customer.setId(2);
+            return null;
+        }).when(stubCustomerRepository).save(any(Customer.class));
+        customerReader.saveCustomer("Ken", "Chuang", "magic3657@gmail.com");
+//        verify(logger).info("Saved customer with id {}", 2);
+    }
+
+
+    private void eventShouldBe(Type expectedType, String expectedCustomerName) {
         Event event = eventArgumentCaptor.getValue();
         assertNotNull(event.getTimestamp());
         assertEquals(expectedType, event.getType());
