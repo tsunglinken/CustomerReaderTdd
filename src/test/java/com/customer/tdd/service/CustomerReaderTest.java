@@ -7,6 +7,7 @@ import com.customer.tdd.repository.impl.StubCustomerRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.slf4j.Logger;
@@ -27,6 +28,7 @@ public class CustomerReaderTest {
     private EmailSender emailSender;
     @Mock
     private EventRecord eventRecord;
+    @InjectMocks
     private CustomerReader customerReader;
     private Customer customer;
     private ArgumentCaptor<Event> eventArgumentCaptor;
@@ -34,7 +36,6 @@ public class CustomerReaderTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
-        customerReader = new CustomerReader(stubCustomerRepository, emailSender, eventRecord, logger);
     }
 
     @Test
