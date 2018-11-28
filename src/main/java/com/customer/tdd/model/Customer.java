@@ -47,9 +47,9 @@ public class Customer {
         return String.format("%s %s", getFirstName(), getLastName());
     }
 
-    public Event createEvent() {
+    public Event createEvent(Type type) {
         Event event = new Event();
-        event.setType(Type.REMINDER_SENT);
+        event.setType(type);
         event.setCustomerName(getFullName());
         event.setTimestamp(LocalDate.now());
         return event;
