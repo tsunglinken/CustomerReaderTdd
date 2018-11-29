@@ -1,4 +1,7 @@
-ntelliJ IDEA ###
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+### ntelliJ IDEA ###
 .idea
 *.iws
 *.iml
